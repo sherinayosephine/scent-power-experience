@@ -11,18 +11,16 @@ export default function HeroPerfume() {
 
   const selectedPerfume = HERO_PERFUMES[selectedIndex];
 
-  // 1. SAFE OVERRIDE: Check if it's Libre without changing the original data
-  const isLibre = selectedPerfume.name.includes("Libre");
+  // 1. Ensure the main image always has a leading slash so it looks in the public folder
+  const displayImage = selectedPerfume.imageUrl.startsWith('/') 
+    ? selectedPerfume.imageUrl 
+    : `/${selectedPerfume.imageUrl}`;
   
-  const displayImage = isLibre ? "/asset/libre.png" : selectedPerfume.imageUrl;
-  
-  const displayAccords = isLibre 
-    ? [
-        { text: "INTENSE VANILLA BOURBON", bkUrl: "/asset/5.jpg" },
-        { text: "FRESH LIVING ORANGE FLOWER", bkUrl: "/asset/6.jpg" },
-        { text: "VIBRANT DIVA LAVENDER", bkUrl: "/asset/7.jpg" },
-      ]
-    : selectedPerfume.accords.map(accord => ({ text: accord, bkUrl: null }));
+  // 2. Map directly from your perfectly structured fragrances.ts data!
+  const displayAccords = selectedPerfume.accords.map(accord => ({ 
+    text: accord.name, 
+    bkUrl: accord.bgImage?.startsWith('/') ? accord.bgImage : `/${accord.bgImage}` 
+  }));
 
   const nextPerfume = () => {
     setSelectedIndex((prev) => (prev + 1) % HERO_PERFUMES.length);

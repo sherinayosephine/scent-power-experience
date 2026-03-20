@@ -49,10 +49,11 @@ export default function MusicExperience() {
   return (
     <div className="min-h-screen bg-black text-white flex flex-col items-center justify-center px-12 relative">
       
-      {/* 4. Hidden Audio Element - Point this to your file in /public/asset/ */}
+      {/* Hidden Audio Element */}
       <audio 
         ref={audioRef} 
-        src="/asset/FLORENT.mp3" 
+        // This grabs the audioUrl and ensures it has a leading slash
+        src={currentNote.audioUrl?.startsWith('/') ? currentNote.audioUrl : `/${currentNote.audioUrl}`} 
         preload="auto"
       />
 

@@ -4,8 +4,9 @@ import { useNavigate } from "react-router";
 import { AIVoiceIndicator } from "../components/AIVoiceIndicator";
 
 // TODO: Replace these placeholder images with your actual product images
-const discoveryKitImg = "https://images.unsplash.com/photo-1587304946998-46c19a031b44?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmcmFncmFuY2UlMjBkaXNjb3ZlcnklMjBraXQlMjBsdXh0cnl8ZW58MXx8fHwxNzczOTI4NDQ0fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral";
-const vectorEdtImg = "https://images.unsplash.com/photo-1758871993077-e084cc7eca86?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh0cnklMjBwZXJmdW1lJTIwYm90dGxlJTIwYmxhY2slMjBnb2xkfGVufDF8fHx8MTc3MzkyODQ0NHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral";
+const discoveryKitImg = "asset/discovery kit.png";
+const vectorEdtImg = "asset/florent.png";
+const dualSprayImg = "asset/dual color.png";
 
 const products = [
   {
@@ -16,9 +17,15 @@ const products = [
   },
   {
     id: "ysl-vector",
-    name: "YSL VECTOR EDT",
+    name: "YSL Les Pouvoirs de Sillage EDT",
     description: "Full size 100ml - Your power layering signature",
     image: vectorEdtImg,
+  },
+  {
+    id: "dual-spray",
+    name: "DUAL SPRAY",
+    description: "Perfect for travel or as an elegant bag charm",
+    image: dualSprayImg,
   },
 ];
 

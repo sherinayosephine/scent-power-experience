@@ -16,7 +16,11 @@ export interface Perfume {
     heart: string[];
     base: string[];
   };
-  accords: string[];
+  // UPDATED: Accords is now an array of objects to hold the background image
+  accords: {
+    name: string;
+    bgImage: string;
+  }[]; 
 }
 
 export const HERO_PERFUMES: Perfume[] = [
@@ -31,9 +35,9 @@ export const HERO_PERFUMES: Perfume[] = [
       base: ["Vanilla", "Tonka Bean", "Ambergris", "Vetiver"]
     },
     accords: [
-      "INTENSE VANILLA BOURBON",
-      "FRESH LIVING ORANGE FLOWER",
-      "VIBRANT DIVA LAVENDER"
+      { name: "INTENSE VANILLA BOURBON", bgImage: "asset/5.jpg" }, // Update these 3 if Libre uses different numbers!
+      { name: "FRESH LIVING ORANGE FLOWER", bgImage: "asset/6.jpg" },
+      { name: "VIBRANT DIVA LAVENDER", bgImage: "asset/7.jpg" }
     ]
   },
   {
@@ -47,9 +51,9 @@ export const HERO_PERFUMES: Perfume[] = [
       base: ["Vanilla", "Patchouli", "Cedar"]
     },
     accords: [
-      "ADDICTIVE COFFEE",
-      "WHITE FLORALS",
-      "SWEET VANILLA"
+      { name: "ADDICTIVE COFFEE", bgImage: "asset/20.jpg" },
+      { name: "WHITE FLORALS", bgImage: "asset/21.jpg" },
+      { name: "SWEET VANILLA", bgImage: "asset/22.jpg" }
     ]
   },
   {
@@ -63,55 +67,72 @@ export const HERO_PERFUMES: Perfume[] = [
       base: ["Musk", "Patchouli", "Ambroxan"]
     },
     accords: [
-      "PASSION STRAWBERRY",
-      "WHITE DATURA FLOWER",
-      "PATCHOULI SENSUALITY"
+      { name: "PASSION STRAWBERRY", bgImage: "asset/23.jpg" },
+      { name: "WHITE DATURA FLOWER", bgImage: "asset/24.jpg" },
+      { name: "PATCHOULI SENSUALITY", bgImage: "asset/25.jpg" }
     ]
   }
 ];
 
+// 1. Add audioUrl to the interface
+export interface FragranceNote {
+  id: string;
+  name: string;
+  description: string;
+  imageUrl: string;
+  color: string;
+  audioUrl: string; // <-- ADD THIS
+}
+
+// 2. Add the exact file paths to your notes
 export const LAYERING_NOTES: FragranceNote[] = [
   {
     id: "florent",
     name: "FLORENT",
     description: "Luminous floral bouquet with delicate petals and soft elegance",
     imageUrl: "asset/florent.jpg",
-    color: "#FF9A3C"
+    color: "#FF9A3C",
+    audioUrl: "asset/florent.mp3" // <-- ADD THIS (make sure the filename perfectly matches what's in your folder)
   },
   {
     id: "neroli",
     name: "NEROLI",
     description: "Vibrant green fruit accord with fresh citrus and lush botanicals",
     imageUrl: "asset/neroli.jpg",
-    color: "#8BC34A"
+    color: "#8BC34A",
+    audioUrl: "asset/neroli.mp3" // <-- ADD THIS
   },
   {
     id: "mineral-wave",
     name: "MINÉRALEWAVE",
     description: "Cool aquatic freshness with oceanic minerals and transparent clarity",
     imageUrl: "asset/minerale.jpg",
-    color: "#00B4D8"
+    color: "#00B4D8",
+    audioUrl: "asset/mineral-wave.mp3" // <-- ADD THIS
   },
   {
     id: "vector",
     name: "VECTOR",
     description: "Bold spicy accord with warming aromatics and vibrant intensity",
     imageUrl: "asset/vector.jpg",
-    color: "#8B4513"
+    color: "#8B4513",
+    audioUrl: "asset/vector.mp3" // <-- ADD THIS
   },
   {
     id: "aether",
     name: "AETHER",
     description: "Classic fougère accord with herbal lavender and green sophistication",
     imageUrl: "asset/aether.jpg",
-    color: "#9D4EDD"
+    color: "#9D4EDD",
+    audioUrl: "asset/aether.mp3" // <-- ADD THIS
   },
   {
     id: "blanc",
     name: "BLANC",
     description: "Pure white tea accord with serene leaves and delicate clarity",
     imageUrl: "asset/blanc.jpg",
-    color: "#F8F4E3"
+    color: "#F8F4E3",
+    audioUrl: "asset/blanc.mp3" // <-- ADD THIS
   }
 ];
 

@@ -90,8 +90,8 @@ export default function WaitingPhase() {
                 "https://images.unsplash.com/photo-1615634260167-c8cdede054de?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwZXJmdW1lJTIwZHJvcCUyMGFtYmVyfGVufDF8fHx8MTc3MzkxNzE5OHww&ixlib=rb-4.1.0&q=80&w=200",
                 "https://images.unsplash.com/photo-1644409496856-a92543edbc64?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsYXZlbmRlciUyMGZpZWxkJTIwcHVycGxlJTIwZmxvd2Vyc3xlbnwxfHx8fDE3NzM4Nzk5OTh8MA&ixlib=rb-4.1.0&q=80&w=200",
                 "https://images.unsplash.com/photo-1585557934446-ae31c9bcc8df?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3aGl0ZSUyMGphc21pbmUlMjBmbG93ZXJzJTIwZWxlZ2FudHxlbnwxfHx8fDE3NzM5MTcyMDR8MA&ixlib=rb-4.1.0&q=80&w=200",
-                "https://images.unsplash.com/photo-1674046710872-cc6a2ff94c9d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmbG93ZXIlMjBwZXRhbHMlMjBjb2xvcmZ1bHxlbnwxfHx8fDE3NzM5MTcxOTh8MA&ixlib=rb-4.1.0&q=80&w=200",
-                "https://images.unsplash.com/photo-1771099077435-6dbcac9fd65e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxyb3NlJTIwcGV0YWxzJTIwbHV4dXJ5JTIwcGlua3xlbnwxfHx8fDE3NzM5MTcyMDV8MA&ixlib=rb-4.1.0&q=80&w=200",
+                "https://images.unsplash.com/photo-1644409496856-a92543edbc64?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsYXZlbmRlciUyMGZpZWxkJTIwcHVycGxlJTIwZmxvd2Vyc3xlbnwxfHx8fDE3NzM4Nzk5OTh8MA&ixlib=rb-4.1.0&q=80&w=200",
+                "https://images.unsplash.com/photo-1585557934446-ae31c9bcc8df?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3aGl0ZSUyMGphc21pbmUlMjBmbG93ZXJzJTIwZWxlZ2FudHxlbnwxfHx8fDE3NzM5MTcyMDR8MA&ixlib=rb-4.1.0&q=80&w=200",
                 "https://images.unsplash.com/photo-1644409496856-a92543edbc64?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsYXZlbmRlciUyMGZpZWxkJTIwcHVycGxlJTIwZmxvd2Vyc3xlbnwxfHx8fDE3NzM4Nzk5OTh8MA&ixlib=rb-4.1.0&q=80&w=200",
               ].map((img, i) => (
                 <motion.div

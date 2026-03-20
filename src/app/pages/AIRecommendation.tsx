@@ -18,10 +18,27 @@ export default function AIRecommendation() {
   };
 
   // Get top rated notes (4 or 5 stars)
-  const recommendedNotes = LAYERING_NOTES.filter((note) => {
+  let recommendedNotes = LAYERING_NOTES.filter((note) => {
     const score = ratingToScore[ratings[note.id]] || 0;
     return score >= 4;
-  }).slice(0, 6); // Show up to 6 recommendations
+  });
+
+  // FALLBACK: If session storage is empty or nothing scored high enough, 
+  // ensure the grid never stays empty by grabbing the note they just experienced!
+  if (recommendedNotes.length === 0) {
+    const currentNote = JSON.parse(sessionStorage.getItem("currentNote") || "{}");
+    
+    // Find their current note, or default to "florent" if that's also empty
+    const fallbackNote = LAYERING_NOTES.find(n => n.id === currentNote.id) 
+      || LAYERING_NOTES.find(n => n.id === "florent");
+      
+    if (fallbackNote) {
+      recommendedNotes = [fallbackNote];
+    }
+  }
+
+  // Cap it at 6 recommendations
+  recommendedNotes = recommendedNotes.slice(0, 6);
 
   const handleConfirm = () => {
     navigate("/product-selection");
