@@ -1,43 +1,53 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "motion/react";
 import { useNavigate } from "react-router";
 import { AIVoiceIndicator } from "../components/AIVoiceIndicator";
-
-// TODO: Replace these placeholder images with your actual product images
-const discoveryKitImg = "asset/discovery kit.png";
-const vectorEdtImg = "asset/florent.png";
-const dualSprayImg = "asset/dual color.png";
-
-const products = [
-  {
-    id: "discovery-kit",
-    name: "DISCOVERY KIT",
-    description: "Les Pouvoirs de Sillage Collection - 6 Layering Fragrances",
-    image: discoveryKitImg,
-  },
-  {
-    id: "ysl-vector",
-    name: "YSL Les Pouvoirs de Sillage EDT",
-    description: "Full size 100ml - Your power layering signature",
-    image: vectorEdtImg,
-  },
-  {
-    id: "dual-spray",
-    name: "DUAL SPRAY",
-    description: "Perfect for travel or as an elegant bag charm",
-    image: dualSprayImg,
-  },
-];
+import { ArrowDownToLine, ShoppingBag, Info } from "lucide-react";
 
 export default function ProductSelection() {
   const navigate = useNavigate();
-  const [selectedProduct, setSelectedProduct] = useState<string | null>(null);
+  
+  // 1. DYNAMICALLY LOAD THEIR SELECTION
+  // Get the exact note they chose from the previous page
+  const finalSelection = JSON.parse(sessionStorage.getItem("finalNoteSelection") || "null");
+  
+  const mainProduct = {
+    id: "ysl-sillage-main",
+    name: finalSelection ? `YSL ${finalSelection.name} Sillage EDT` : "YSL Les Pouvoirs de Sillage EDT",
+    description: "Full size 100ml - Your personalized power layering signature.",
+    
+    // CHANGED: Now uses bottleImageUrl, with a safe fallback!
+    image: finalSelection ? finalSelection.bottleImageUrl : "/asset/florent bottle.png", 
+  };
+
+  const addons = [
+    {
+      id: "dual-spray",
+      name: "DUAL SPRAY",
+      description: "Travel-size double spray or elegant bag charm.",
+      image: "/asset/dual color.png",
+    },
+    {
+      id: "discovery-kit",
+      name: "DISCOVERY KIT",
+      description: "Collection of all 6 Layering Fragrances to explore.",
+      image: "/asset/discovery kit.png",
+    },
+  ];
+
+  // Default selection to the main dispensed product
+  const [selectedProduct, setSelectedProduct] = useState<string | null>(mainProduct.id);
 
   const handleCheckout = () => {
     if (selectedProduct) {
       sessionStorage.setItem("selectedProduct", selectedProduct);
-      // In-store experience - just show completion message
-      alert("Thank you! Please proceed to the cashier to complete your purchase.");
+      
+      if (selectedProduct === mainProduct.id) {
+        alert("Dispensing initiated! Please wait while the machine formulates your bottle.");
+      } else {
+        alert("Thank you! Please proceed to the cashier to complete your purchase.");
+      }
+      
       sessionStorage.clear();
       navigate("/");
     }
@@ -49,8 +59,9 @@ export default function ProductSelection() {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white p-12">
-      {/* YSL Logo - Consistent with other pages */}
+    <div className="min-h-screen bg-black text-white p-8 md:p-12 relative overflow-hidden flex flex-col">
+      
+      {/* YSL Logo */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -67,115 +78,155 @@ export default function ProductSelection() {
       {/* Back Button */}
       <button
         onClick={() => navigate("/ai-recommendation")}
-        className="text-white text-sm tracking-widest hover:text-gray-400 transition-colors"
+        className="absolute top-12 left-12 text-white text-sm tracking-widest hover:text-gray-400 transition-colors z-30 uppercase"
       >
-        &lt;Back
+        &lt; Back
       </button>
 
-      <div className="max-w-7xl mx-auto mt-12">
+      <div className="max-w-7xl mx-auto mt-12 w-full flex-1 flex flex-col">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-16"
+          className="text-center mb-12 shrink-0"
         >
-          <h1 className="text-7xl mb-6 tracking-wider uppercase">
-            Continue Your Power
+          <h1 className="text-5xl md:text-6xl mb-4 tracking-widest uppercase font-bold">
+            Take Your Power
           </h1>
-          <p className="text-gray-400 text-2xl tracking-wide">
-            Take your power with you.
+          <p className="text-gray-400 text-lg tracking-widest uppercase">
+            Select your preferred format to complete the experience
           </p>
         </motion.div>
 
-        {/* Products Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-          {products.map((product, index) => (
-            <motion.button
-              key={product.id}
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 * index }}
-              onClick={() => setSelectedProduct(product.id)}
-              className={`relative group overflow-hidden transition-all duration-300 ${
-                selectedProduct === product.id
-                  ? "ring-4 ring-white"
-                  : "hover:scale-105"
+        {/* ---------------- PRODUCT LAYOUT ---------------- */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12 flex-1 min-h-0">
+          
+          {/* LEFT: MAIN DISPENSED PRODUCT (Massive) */}
+          <motion.div 
+            initial={{ opacity: 0, x: -30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.2 }}
+            className="lg:col-span-7 flex flex-col h-full"
+          >
+            <button
+              onClick={() => setSelectedProduct(mainProduct.id)}
+              className={`relative flex-1 group overflow-hidden transition-all duration-300 flex flex-col text-left ${
+                selectedProduct === mainProduct.id
+                  ? "ring-4 ring-amber-400 shadow-[0_0_40px_rgba(251,191,36,0.2)]"
+                  : "ring-1 ring-white/20 hover:ring-white/50 opacity-80 hover:opacity-100"
               }`}
             >
-              {/* Product Image */}
-              <div className="aspect-[3/4] overflow-hidden bg-zinc-900">
+              <div className="w-full flex-1 relative bg-zinc-900 overflow-hidden min-h-[300px]">
                 <img
-                  src={product.image}
-                  alt={product.name}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                  src={mainProduct.image}
+                  alt={mainProduct.name}
+                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                 />
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
+                
+                {/* Checkmark */}
+                {selectedProduct === mainProduct.id && (
+                  <div className="absolute top-6 right-6 w-10 h-10 bg-amber-400 rounded-full flex items-center justify-center shadow-lg z-10">
+                    <svg className="w-6 h-6 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+                  </div>
+                )}
               </div>
 
-              {/* Product Info */}
-              <div className="p-6 text-center bg-black border border-white">
-                <h3 className="text-xl tracking-wider mb-3 uppercase">
-                  {product.name}
+              {/* MACHINE WARNING BANNER */}
+              <div className="bg-amber-400 text-black px-6 py-4 flex items-center gap-4 shrink-0">
+                <ArrowDownToLine className="w-8 h-8 animate-bounce" />
+                <div>
+                  <h4 className="font-bold uppercase tracking-widest text-sm">Machine Dispensed</h4>
+                  <p className="text-xs font-medium opacity-80">This item will be formulated and released directly from this kiosk.</p>
+                </div>
+              </div>
+
+              <div className="p-8 bg-black border-x border-b border-amber-400/30 shrink-0">
+                <h3 className="text-3xl tracking-widest mb-2 uppercase font-bold text-amber-400">
+                  {mainProduct.name}
                 </h3>
-                <p className="text-sm text-gray-400 tracking-wide">
-                  {product.description}
+                <p className="text-gray-300 tracking-wide text-lg">
+                  {mainProduct.description}
                 </p>
               </div>
+            </button>
+          </motion.div>
 
-              {/* Selected Indicator */}
-              {selectedProduct === product.id && (
-                <motion.div
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  className="absolute top-4 right-4 w-8 h-8 bg-white rounded-full flex items-center justify-center"
-                >
-                  <svg
-                    className="w-5 h-5 text-black"
-                    fill="none"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="3"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path d="M5 13l4 4L19 7" />
-                  </svg>
-                </motion.div>
-              )}
-            </motion.button>
-          ))}
+          {/* RIGHT: ADD-ONS (Stacked, Large but secondary) */}
+          <motion.div 
+            initial={{ opacity: 0, x: 30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.4 }}
+            className="lg:col-span-5 flex flex-col gap-6"
+          >
+            <div className="flex items-center gap-3 text-gray-400 uppercase tracking-widest text-sm mb-2 px-2">
+              <ShoppingBag className="w-5 h-5" />
+              <span>Or Choose In-Store Collection:</span>
+            </div>
+
+            {addons.map((addon) => (
+              <button
+                key={addon.id}
+                onClick={() => setSelectedProduct(addon.id)}
+                className={`relative flex-1 flex flex-row group overflow-hidden transition-all duration-300 text-left min-h-[180px] ${
+                  selectedProduct === addon.id
+                    ? "ring-4 ring-white shadow-[0_0_30px_rgba(255,255,255,0.2)]"
+                    : "ring-1 ring-white/20 hover:ring-white/50 opacity-80 hover:opacity-100"
+                }`}
+              >
+                <div className="w-2/5 bg-zinc-900 relative overflow-hidden shrink-0">
+                  <img
+                    src={addon.image}
+                    alt={addon.name}
+                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                  />
+                </div>
+                
+                <div className="w-3/5 p-6 bg-black flex flex-col justify-center border-y border-r border-white/20">
+                  <div className="flex justify-between items-start mb-2">
+                    <h3 className="text-xl tracking-widest uppercase font-bold text-white">
+                      {addon.name}
+                    </h3>
+                    {selectedProduct === addon.id && (
+                      <div className="w-6 h-6 bg-white rounded-full flex items-center justify-center shrink-0 ml-2">
+                        <svg className="w-4 h-4 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+                      </div>
+                    )}
+                  </div>
+                  <p className="text-sm text-gray-400 tracking-wide mb-4 line-clamp-2">
+                    {addon.description}
+                  </p>
+                  <div className="flex items-center gap-2 text-xs text-gray-500 uppercase tracking-wider mt-auto">
+                    <Info className="w-4 h-4" /> Collect at Cashier
+                  </div>
+                </div>
+              </button>
+            ))}
+          </motion.div>
         </div>
 
-        {/* Action Buttons */}
+        {/* ---------------- ACTION BUTTONS ---------------- */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-          className="flex flex-col sm:flex-row gap-6 justify-center items-center"
+          transition={{ delay: 0.6 }}
+          className="flex flex-col sm:flex-row gap-6 justify-center items-center shrink-0 pb-8"
         >
           <button
             onClick={handleDiscoverAgain}
-            className="border-2 border-white text-white px-16 py-5 text-lg tracking-widest uppercase hover:bg-white hover:text-black transition-colors duration-300"
+            className="border-2 border-white text-white px-12 py-5 text-sm md:text-lg tracking-[0.3em] uppercase hover:bg-white hover:text-black transition-colors duration-300 font-bold"
           >
-            Discover Again
+            Start Over
           </button>
           
           <button
             onClick={handleCheckout}
             disabled={!selectedProduct}
-            className="bg-white text-black px-16 py-5 text-lg tracking-widest uppercase hover:bg-gray-200 transition-colors duration-300 disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-white"
+            className="bg-white text-black px-16 py-5 text-sm md:text-lg tracking-[0.3em] uppercase hover:bg-gray-200 transition-colors duration-300 disabled:opacity-30 disabled:cursor-not-allowed font-bold shadow-xl active:scale-95"
           >
-            Proceed to Checkout
+            {selectedProduct === mainProduct.id ? "Dispense Now" : "Complete Purchase"}
           </button>
         </motion.div>
 
-        {/* Info Text */}
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.6 }}
-          className="text-center text-gray-500 text-sm tracking-wider mt-8"
-        >
-          This is an in-store experience. Please take your selection to the cashier.
-        </motion.p>
       </div>
 
       <AIVoiceIndicator />

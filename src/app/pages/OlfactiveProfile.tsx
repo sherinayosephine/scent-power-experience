@@ -1,43 +1,76 @@
+import { useEffect, useState } from "react";
 import { motion } from "motion/react";
 import { useNavigate } from "react-router";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Dot } from "recharts";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import { LAYERING_NOTES } from "../data/fragrances";
 import { ShoppingBag } from "lucide-react";
 import { AIVoiceIndicator } from "../components/AIVoiceIndicator";
 
 export default function OlfactiveProfile() {
   const navigate = useNavigate();
+  const [chartData, setChartData] = useState<any[]>([]);
 
-  // Get ratings from session storage
-  const ratings = JSON.parse(sessionStorage.getItem("noteRatings") || "{}");
+  useEffect(() => {
+    // 1. SAFELY PULL ALL POSSIBLE RATING DATA FROM SESSION
+    let ratingsDict: Record<string, any> = {};
+    try {
+      ratingsDict = JSON.parse(sessionStorage.getItem("noteRatings") || "{}");
+    } catch (e) {
+      console.error("Could not parse noteRatings");
+    }
 
-  // Convert ratings to numeric scores
-  const ratingToScore: { [key: string]: number } = {
-    love: 5,
-    like: 4,
-    neutral: 3,
-    dislike: 2,
-    hate: 1,
-  };
+    // Fallback: If the rating page only saved the single most recent rating
+    const currentNote = JSON.parse(sessionStorage.getItem("currentNote") || "{}");
+    const singleRating = sessionStorage.getItem("currentRating");
+    
+    if (currentNote.id && singleRating) {
+      ratingsDict[currentNote.id] = singleRating;
+    }
 
-  // Prepare chart data - include ALL notes, even those not rated (with 0 score)
-  const chartData = LAYERING_NOTES.map((note, index) => ({
-    name: note.name.split(" ")[0],
-    fullName: note.name,
-    score: ratingToScore[ratings[note.id]] || 0,
-    color: note.color,
-    id: note.id,
-    uniqueKey: `${note.id}-${index}`, // Ensure uniqueness for recharts
-  }));
+    // 2. BULLETPROOF SCORE CONVERTER
+    const getScore = (rawRating: any): number => {
+      if (!rawRating) return 0;
+      
+      // If it's already a number (1-5), just return it
+      if (typeof rawRating === 'number') return rawRating;
+      if (!isNaN(Number(rawRating))) return Number(rawRating);
 
-  // Find the highest rated note(s) (excluding 0 scores)
+      // If it's text, convert to number safely
+      const text = String(rawRating).toLowerCase().trim();
+      if (text.includes("love") || text === "5") return 5;
+      if (text.includes("like") || text === "4") return 4;
+      if (text.includes("neutral") || text === "3") return 3;
+      if (text.includes("dislike") || text === "2") return 2;
+      if (text.includes("hate") || text === "1") return 1;
+      
+      return 0;
+    };
+
+    // 3. BUILD THE CHART DATA
+    const formattedData = LAYERING_NOTES.map((note, index) => ({
+      name: note.name.split(" ")[0],
+      fullName: note.name,
+      score: getScore(ratingsDict[note.id]), // Uses the safe converter
+      color: note.color,
+      id: note.id,
+      uniqueKey: `${note.id}-${index}`,
+    }));
+
+    setChartData(formattedData);
+  }, []);
+
+  // Calculate favorites based on the robust data
   const ratedData = chartData.filter(d => d.score > 0);
   const maxScore = ratedData.length > 0 ? Math.max(...ratedData.map(d => d.score)) : 0;
   const favoriteNotes = chartData.filter(d => d.score === maxScore && d.score > 0);
 
+  // Custom Dot for the Chart
   const CustomDot = (props: any) => {
     const { cx, cy, payload, index } = props;
     const isHighest = payload.score === maxScore && payload.score > 0;
+    const isRated = payload.score > 0;
+
+    if (!isRated) return null; // Don't draw giant dots for unrated 0s
 
     return (
       <g key={`dot-${payload.id}-${index}`}>
@@ -58,6 +91,7 @@ export default function OlfactiveProfile() {
             stroke="white"
             strokeWidth={2}
             opacity={0.5}
+            className="animate-ping" // Adds a cool pulse to the highest score
           />
         )}
       </g>
@@ -65,17 +99,17 @@ export default function OlfactiveProfile() {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white p-12">
-      {/* YSL Logo - Consistent with other pages */}
+    <div className="min-h-screen bg-black text-white p-8 md:p-12 relative overflow-hidden">
+      
+      {/* YSL Logo */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.5, duration: 0.8 }}
         className="absolute top-12 right-12 w-16 z-30"
       >
         <img
-          src="/asset/ysl logo.png"
-          alt="Yves Saint Laurent Logo"
+          src="/asset/ysl-logo.png"
+          alt="YSL"
           className="w-full h-auto object-contain"
         />
       </motion.div>
@@ -83,61 +117,78 @@ export default function OlfactiveProfile() {
       {/* Back Button */}
       <button
         onClick={() => navigate("/ai-conversation")}
-        className="text-white text-sm tracking-widest hover:text-gray-400 transition-colors"
+        className="absolute top-12 left-12 text-white text-sm tracking-widest hover:text-gray-400 transition-colors z-30 uppercase"
       >
-        &lt;Back
+        &lt; Back
       </button>
 
-      <div className="max-w-6xl mx-auto mt-12">
+      <div className="max-w-6xl mx-auto mt-16 z-10 relative">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-16"
+          className="text-center mb-12"
         >
-          <h1 className="text-6xl mb-6 tracking-wider uppercase">
+          <h1 className="text-5xl md:text-6xl mb-4 tracking-wider uppercase font-bold">
             Your Fragrance Journey
           </h1>
-          <p className="text-gray-400 text-xl tracking-wide">
+          <p className="text-gray-400 text-lg md:text-xl tracking-widest uppercase">
             Discover your unique olfactive preferences
           </p>
         </motion.div>
 
-        {/* Chart */}
+        {/* Chart Section */}
         {chartData.length > 0 && (
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="border border-white p-12 mb-16"
+            className="border border-white/20 bg-white/5 backdrop-blur-sm p-8 md:p-12 mb-16 shadow-2xl"
           >
-            <h2 className="text-3xl mb-8 tracking-wider text-center uppercase">
-              Your Preference Journey
+            <h2 className="text-2xl md:text-3xl mb-8 tracking-widest text-center uppercase font-bold">
+              Your Preference Profile
             </h2>
             
-            <ResponsiveContainer width="100%" height={400}>
-              <LineChart data={chartData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#333" />
+            <ResponsiveContainer width="100%" height={350}>
+              <LineChart data={chartData} margin={{ top: 20, right: 30, left: 0, bottom: 0 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#333" vertical={false} />
                 <XAxis
                   dataKey="name"
-                  stroke="#fff"
-                  tick={{ fill: '#fff' }}
-                  style={{ fontSize: '14px' }}
+                  stroke="#888"
+                  tick={{ fill: '#aaa' }}
+                  style={{ fontSize: '12px', textTransform: 'uppercase', letterSpacing: '2px' }}
+                  tickMargin={15}
                 />
                 <YAxis
-                  stroke="#fff"
-                  tick={{ fill: '#fff' }}
+                  stroke="#888"
+                  tick={{ fill: '#aaa' }}
                   domain={[0, 5]}
                   ticks={[1, 2, 3, 4, 5]}
-                  style={{ fontSize: '14px' }}
+                  style={{ fontSize: '12px' }}
+                  tickFormatter={(val) => {
+                    if (val === 5) return "LOVE";
+                    if (val === 3) return "NEUTRAL";
+                    if (val === 1) return "HATE";
+                    return "";
+                  }}
                 />
                 <Tooltip
+                  cursor={{ stroke: 'rgba(255,255,255,0.1)', strokeWidth: 2 }}
                   contentStyle={{
-                    backgroundColor: '#000',
+                    backgroundColor: 'rgba(0,0,0,0.9)',
                     border: '1px solid #fff',
                     borderRadius: '0',
-                    color: '#fff'
+                    color: '#fff',
+                    textTransform: 'uppercase',
+                    letterSpacing: '1px'
                   }}
-                  labelStyle={{ color: '#fff' }}
+                  formatter={(value: number) => {
+                    if (value === 5) return ["Love", "Rating"];
+                    if (value === 4) return ["Like", "Rating"];
+                    if (value === 3) return ["Neutral", "Rating"];
+                    if (value === 2) return ["Dislike", "Rating"];
+                    if (value === 1) return ["Hate", "Rating"];
+                    return ["Unrated", "Rating"];
+                  }}
                 />
                 <Line
                   type="monotone"
@@ -145,15 +196,11 @@ export default function OlfactiveProfile() {
                   stroke="#fff"
                   strokeWidth={3}
                   dot={<CustomDot />}
-                  activeDot={{ r: 8 }}
+                  activeDot={{ r: 8, fill: "white" }}
+                  animationDuration={1500}
                 />
               </LineChart>
             </ResponsiveContainer>
-
-            <div className="flex justify-between mt-6 text-sm text-gray-400 tracking-wider uppercase">
-              <span>Dislike</span>
-              <span>Love</span>
-            </div>
           </motion.div>
         )}
 
@@ -165,11 +212,11 @@ export default function OlfactiveProfile() {
             transition={{ delay: 0.4 }}
             className="mb-16"
           >
-            <h2 className="text-4xl mb-8 tracking-wider text-center uppercase">
+            <h2 className="text-3xl md:text-4xl mb-8 tracking-widest text-center uppercase font-bold">
               Your Signature Notes
             </h2>
 
-            <div className="grid grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 justify-center">
               {favoriteNotes.map((note, index) => {
                 const fullNote = LAYERING_NOTES.find(n => n.name === note.fullName);
                 return (
@@ -178,21 +225,21 @@ export default function OlfactiveProfile() {
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ delay: 0.5 + index * 0.1 }}
-                    className="border-2 border-white p-6 text-center"
+                    className="border border-white/20 bg-white/5 p-6 text-center shadow-lg"
                   >
-                    <div className="w-full aspect-square mb-4 overflow-hidden">
+                    <div className="w-full aspect-[3/4] mb-4 overflow-hidden border border-white/10">
                       <img
                         src={fullNote?.imageUrl}
                         alt={note.fullName}
                         className="w-full h-full object-cover"
                       />
                     </div>
-                    <h3 className="text-2xl tracking-wider mb-2">
+                    <h3 className="text-xl md:text-2xl tracking-widest mb-2 font-bold uppercase">
                       {note.fullName}
                     </h3>
-                    <div className="flex justify-center gap-1">
+                    <div className="flex justify-center gap-2 mt-3">
                       {[...Array(5)].map((_, i) => (
-                        <span key={i} className={i < note.score ? "text-white" : "text-gray-700"}>
+                        <span key={i} className={`text-xl ${i < note.score ? "text-white drop-shadow-[0_0_8px_white]" : "text-gray-800"}`}>
                           ★
                         </span>
                       ))}
@@ -209,21 +256,20 @@ export default function OlfactiveProfile() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
-          className="flex gap-6 justify-center"
+          className="flex flex-col md:flex-row gap-6 justify-center pb-12"
         >
           <button
             onClick={() => {
-              // Reset and start over
               sessionStorage.setItem("trialCount", "0");
               navigate("/note-selection");
             }}
-            className="border-2 border-white px-12 py-5 text-lg tracking-widest uppercase hover:bg-white hover:text-black transition-colors duration-300"
+            className="border-2 border-white px-12 py-5 text-sm md:text-lg tracking-[0.3em] uppercase hover:bg-white hover:text-black transition-colors duration-300 font-bold"
           >
             Explore More
           </button>
           <button
             onClick={() => navigate("/ai-recommendation")}
-            className="bg-white text-black px-12 py-5 text-lg tracking-widest uppercase hover:bg-gray-200 transition-colors duration-300 flex items-center gap-3"
+            className="bg-white text-black px-12 py-5 text-sm md:text-lg tracking-[0.3em] uppercase hover:bg-gray-200 transition-colors duration-300 flex items-center justify-center gap-3 font-bold"
           >
             <ShoppingBag className="w-5 h-5" />
             Get Your Collection
