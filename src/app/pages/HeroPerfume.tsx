@@ -119,7 +119,7 @@ export default function HeroPerfume() {
 
         {/* RIGHT COLUMN: Accords */}
         <div className="flex flex-col h-full pb-4">
-          <h2 className="text-2xl tracking-wider text-center mb-8">Parfume Accord</h2>
+          <h2 className="text-2xl tracking-wider text-center mb-8">Perfume Accord</h2>
 
           {/* Accords Blocks */}
           <div className="flex-1 flex flex-col justify-center gap-6">

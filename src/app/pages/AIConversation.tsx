@@ -10,10 +10,12 @@ export default function AIConversation() {
   const [messages, setMessages] = useState<{ text: string; isAI: boolean }[]>([]);
   const [showOptions, setShowOptions] = useState(false);
 
-  const currentNote = JSON.parse(sessionStorage.getItem("currentNote") || "{}");
-  const ratings = JSON.parse(sessionStorage.getItem("noteRatings") || "{}");
+  const currentNoteRaw = sessionStorage.getItem("currentNote");
+  const currentNote = currentNoteRaw ? JSON.parse(currentNoteRaw) : { name: "that note", id: "" };
+  
+  const ratingsRaw = sessionStorage.getItem("noteRatings");
+  const ratings = ratingsRaw ? JSON.parse(ratingsRaw) : {};
   const lastRating = ratings[currentNote.id];
-  const trialCount = parseInt(sessionStorage.getItem("trialCount") || "0");
 
   useEffect(() => {
     // Initial AI message based on rating
@@ -21,49 +23,46 @@ export default function AIConversation() {
       if (lastRating === "dislike" || lastRating === "hate") {
         setMessages([
           { 
-            text: `Oh, I see ${currentNote.name} wasn't quite right for you. Would you like to try another fragrance note?`, 
+            text: `Oh, I see ${currentNote.name} wasn't quite right for you. Would you like to explore our other fragrance notes?`, 
             isAI: true 
           }
         ]);
       } else {
         setMessages([
           { 
-            text: `I'm glad you enjoyed ${currentNote.name}! Would you like to explore more notes or see your complete olfactive profile?`, 
+            text: `I'm glad you enjoyed ${currentNote.name}! Would you like to explore more notes, or are you ready to finalize your signature combination?`, 
             isAI: true 
           }
         ]);
       }
       setTimeout(() => setShowOptions(true), 1000);
     }, 500);
-  }, []);
+  }, [currentNote.name, lastRating]);
 
   const handleExploreMore = () => {
-    setMessages([
-      ...messages,
-      { text: "Yes, I want to try more", isAI: false },
-      { text: "Sure! What kind of scent are you looking for? Let me guide you to another note...", isAI: true }
+    setMessages((prev) => [
+      ...prev,
+      { text: "Yes, I want to try another note.", isAI: false },
+      { text: "Sure! Let's go back to the collection so you can discover another perfect match.", isAI: true }
     ]);
     
     setTimeout(() => {
-      // Check if we've tried all notes
-      if (trialCount >= LAYERING_NOTES.length) {
-        navigate("/profile");
-      } else {
-        navigate("/note-selection");
-      }
-    }, 2000);
+      // Kembali ke halaman pemilihan note untuk nyoba note yang belum
+      navigate("/note-selection");
+    }, 2500);
   };
 
-  const handleViewProfile = () => {
-    setMessages([
-      ...messages,
-      { text: "Show me my profile", isAI: false },
-      { text: "Perfect! Let me show you your unique olfactive journey...", isAI: true }
+  const handleConfirmCombination = () => {
+    setMessages((prev) => [
+      ...prev,
+      { text: "I'm ready to finalize my choice.", isAI: false },
+      { text: "Excellent. Let me compile your Olfactive Profile so you can select your ultimate favorite...", isAI: true }
     ]);
     
     setTimeout(() => {
-      navigate("/journey-steps?step=3");
-    }, 2000);
+      // Lanjut ke halaman Profile untuk review dan milih Final Note
+      navigate("/profile");
+    }, 2500);
   };
 
   return (
@@ -106,8 +105,8 @@ export default function AIConversation() {
                 <div
                   className={`max-w-xl p-6 ${
                     message.isAI
-                      ? "bg-white/10 border border-white/20"
-                      : "bg-white text-black"
+                      ? "bg-white/10 border border-white/20 rounded-lg"
+                      : "bg-white text-black rounded-lg"
                   }`}
                 >
                   <p className="text-lg tracking-wide">{message.text}</p>
@@ -127,15 +126,15 @@ export default function AIConversation() {
           >
             <button
               onClick={handleExploreMore}
-              className="border-2 border-white px-12 py-4 text-lg tracking-widest uppercase hover:bg-white hover:text-black transition-colors duration-300"
+              className="border-2 border-white px-12 py-4 text-sm md:text-lg tracking-widest uppercase hover:bg-white hover:text-black transition-colors duration-300 rounded-md font-bold"
             >
-              {trialCount >= 3 ? "Try More Notes" : "Explore More"}
+              EXPLORE MORE
             </button>
             <button
-              onClick={handleViewProfile}
-              className="bg-white text-black px-12 py-4 text-lg tracking-widest uppercase hover:bg-gray-200 transition-colors duration-300"
+              onClick={handleConfirmCombination}
+              className="bg-white text-black px-12 py-4 text-sm md:text-lg tracking-widest uppercase hover:bg-gray-200 transition-colors duration-300 rounded-md font-bold"
             >
-              View My Profile
+              CONFIRM COMBINATION
             </button>
           </motion.div>
         )}

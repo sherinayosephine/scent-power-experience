@@ -1,28 +1,25 @@
 import { motion } from "motion/react";
-import { useNavigate, useLocation } from "react-router";
+import { useNavigate } from "react-router";
+import { ArrowRight } from "lucide-react";
 
 export default function ApplicationGuide() {
   const navigate = useNavigate();
-  const location = useLocation();
-  
-  const isHero = location.pathname === "/apply-hero";
-  
+
   const handleContinue = () => {
-    if (isHero) {
-      navigate("/waiting");
-    } else {
-      navigate("/music");
-    }
+    // Sesuai flow baru: Setelah di-apply ke tubuh, user memberi rating.
+    // Nanti dari /rating, arahkan ke /profile, lalu ke /checkout.
+    navigate("/rating-body");
   };
 
   return (
-    <div className="min-h-screen bg-black text-white p-12">
-      {/* YSL Logo - Consistent with other pages */}
+    <div className="min-h-screen bg-black text-white p-8 md:p-12 flex flex-col relative overflow-hidden">
+      
+      {/* YSL Logo */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.5, duration: 0.8 }}
-        className="absolute top-12 right-12 w-16 z-30"
+        className="absolute top-12 right-12 w-16 z-30 hidden md:block"
       >
         <img
           src="/asset/ysl logo.png"
@@ -31,132 +28,72 @@ export default function ApplicationGuide() {
         />
       </motion.div>
 
-      <div className="max-w-5xl mx-auto">
-        <motion.h1
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-5xl mb-6 tracking-wider uppercase text-center"
-        >
-          {isHero ? "Heaviest First" : "Lightest Last"}
-        </motion.h1>
+      <img 
+        src="/asset/ysl logo.png" 
+        alt="YSL Logo" 
+        className="absolute top-8 w-12 object-contain z-30 md:hidden" 
+      />
 
-        <motion.p
+      {/* Back Button */}
+      <button
+        onClick={() => navigate(-1)}
+        className="absolute top-12 left-6 md:left-12 text-white text-xs md:text-sm tracking-widest hover:text-gray-400 transition-colors z-30 uppercase"
+      >
+        &lt; Back
+      </button>
+
+      <div className="flex-1 flex flex-col justify-center items-center w-full max-w-3xl mx-auto mt-16 md:mt-0 z-10">
+        
+        <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
+          className="text-center mb-10"
+        >
+          <h1 className="text-3xl md:text-5xl font-bold mb-4 tracking-widest uppercase">
+            Heaviest First, Lightest Last
+          </h1>
+          <p className="text-gray-400 text-sm md:text-lg tracking-widest uppercase">
+            Master the art of layering on your skin
+          </p>
+        </motion.div>
+
+        {/* Kotak Gambar Tunggal */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.2 }}
-          className="text-xl mb-16 text-center text-gray-400"
+          className="w-full aspect-square md:aspect-video border  bg-[#111] mb-12 relative group"
         >
-          {isHero ? "Apply your hero perfume to these pulse points" : "Layer the fragrance on these areas"}
-        </motion.p>
-
-        {/* Body diagrams - Heavy, Midweight, Light */}
-        <div className="grid grid-cols-3 gap-8 mb-16">
-          {/* Heavy */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-            className="text-center"
-          >
-            <h3 className="text-xl mb-6 uppercase tracking-wider">Heavy</h3>
-            <div className="relative mb-6 border-2 border-gray-800 p-8 aspect-[3/4]">
-              {/* Body silhouette - simplified */}
-              <svg viewBox="0 0 200 400" className="w-full h-full">
-                {/* Head */}
-                <ellipse cx="100" cy="40" rx="25" ry="30" fill="white" />
-                {/* Neck */}
-                <rect x="90" y="60" width="20" height="20" fill="white" />
-                {/* Body */}
-                <rect x="70" y="80" width="60" height="120" rx="10" fill="white" />
-                {/* Arms */}
-                <rect x="30" y="90" width="40" height="15" rx="7" fill="white" />
-                <rect x="130" y="90" width="40" height="15" rx="7" fill="white" />
-                {/* Forearms */}
-                <rect x="20" y="105" width="35" height="60" rx="7" fill="white" />
-                <rect x="145" y="105" width="35" height="60" rx="7" fill="white" />
-                {/* Legs */}
-                <rect x="75" y="200" width="20" height="150" rx="10" fill="white" />
-                <rect x="105" y="200" width="20" height="150" rx="10" fill="white" />
-                
-                {/* Highlight points - Heavy (chest, ankles) */}
-                <circle cx="100" cy="120" r="12" fill="#FF9A3C" opacity="0.8" />
-                <circle cx="85" cy="340" r="12" fill="#FF9A3C" opacity="0.8" />
-                <circle cx="115" cy="340" r="12" fill="#FF9A3C" opacity="0.8" />
-              </svg>
-            </div>
-            <p className="text-sm text-gray-400">Chest, Ankles</p>
-          </motion.div>
-
-          {/* Midweight */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-            className="text-center"
-          >
-            <h3 className="text-xl mb-6 uppercase tracking-wider">Midweight</h3>
-            <div className="relative mb-6 border-2 border-gray-800 p-8 aspect-[3/4]">
-              <svg viewBox="0 0 200 400" className="w-full h-full">
-                <ellipse cx="100" cy="40" rx="25" ry="30" fill="white" />
-                <rect x="90" y="60" width="20" height="20" fill="white" />
-                <rect x="70" y="80" width="60" height="120" rx="10" fill="white" />
-                <rect x="30" y="90" width="40" height="15" rx="7" fill="white" />
-                <rect x="130" y="90" width="40" height="15" rx="7" fill="white" />
-                <rect x="20" y="105" width="35" height="60" rx="7" fill="white" />
-                <rect x="145" y="105" width="35" height="60" rx="7" fill="white" />
-                <rect x="75" y="200" width="20" height="150" rx="10" fill="white" />
-                <rect x="105" y="200" width="20" height="150" rx="10" fill="white" />
-                
-                {/* Highlight points - Midweight (inner elbows, wrists) */}
-                <circle cx="30" cy="115" r="12" fill="#9D4EDD" opacity="0.8" />
-                <circle cx="170" cy="115" r="12" fill="#9D4EDD" opacity="0.8" />
-                <circle cx="25" cy="155" r="12" fill="#9D4EDD" opacity="0.8" />
-                <circle cx="175" cy="155" r="12" fill="#9D4EDD" opacity="0.8" />
-              </svg>
-            </div>
-            <p className="text-sm text-gray-400">Inner Elbows, Wrists</p>
-          </motion.div>
-
-          {/* Light */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
-            className="text-center"
-          >
-            <h3 className="text-xl mb-6 uppercase tracking-wider">Light</h3>
-            <div className="relative mb-6 border-2 border-gray-800 p-8 aspect-[3/4]">
-              <svg viewBox="0 0 200 400" className="w-full h-full">
-                <ellipse cx="100" cy="40" rx="25" ry="30" fill="white" />
-                <rect x="90" y="60" width="20" height="20" fill="white" />
-                <rect x="70" y="80" width="60" height="120" rx="10" fill="white" />
-                <rect x="30" y="90" width="40" height="15" rx="7" fill="white" />
-                <rect x="130" y="90" width="40" height="15" rx="7" fill="white" />
-                <rect x="20" y="105" width="35" height="60" rx="7" fill="white" />
-                <rect x="145" y="105" width="35" height="60" rx="7" fill="white" />
-                <rect x="75" y="200" width="20" height="150" rx="10" fill="white" />
-                <rect x="105" y="200" width="20" height="150" rx="10" fill="white" />
-                
-                {/* Highlight points - Light (neck, hair, hands) */}
-                <circle cx="100" cy="35" r="12" fill="#FFD700" opacity="0.8" />
-                <circle cx="100" cy="70" r="12" fill="#FFD700" opacity="0.8" />
-                <circle cx="30" cy="90" r="12" fill="#FFD700" opacity="0.8" />
-                <circle cx="170" cy="90" r="12" fill="#FFD700" opacity="0.8" />
-              </svg>
-            </div>
-            <p className="text-sm text-gray-400">Neck, Hair, Shoulders</p>
-          </motion.div>
-        </div>
+          {/* GANTI SOURCE GAMBAR INI NANTI 
+            (Pastikan gambar baru Anda ditaruh di folder public/asset/ dengan nama body-guide.jpg)
+          */}
+          <img 
+            src="/asset/heavy light.png" 
+            alt="Application Guide" 
+            className="w-full h-full object-cover opacity-90 transition-opacity duration-500 group-hover:opacity-100"
+            onError={(e) => {
+              // Fallback jika gambar belum ada
+              const target = e.target as HTMLImageElement;
+              target.src = "https://images.unsplash.com/photo-1596462502278-27bf84033005?q=80&w=2000&auto=format&fit=crop";
+            }}
+          />
+        </motion.div>
 
         {/* Continue Button */}
-        <div className="flex justify-center">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4 }}
+          className="w-full flex justify-center"
+        >
           <button
             onClick={handleContinue}
-            className="bg-white text-black px-20 py-5 text-lg tracking-widest uppercase hover:bg-gray-200 transition-colors duration-300"
+            className="w-full md:w-auto bg-white text-black px-16 py-5 text-sm md:text-base tracking-[0.3em] uppercase hover:bg-gray-200 active:scale-95 transition-all duration-300 font-bold flex items-center justify-center gap-3 shadow-[0_0_20px_rgba(255,255,255,0.2)]"
           >
-            Applied
+            I HAVE APPLIED <ArrowRight size={20} />
           </button>
-        </div>
+        </motion.div>
+
       </div>
     </div>
   );

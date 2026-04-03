@@ -17,7 +17,7 @@ export default function Welcome() {
           className="w-full h-full object-cover opacity-60"
         >
           <source
-            src="/asset/ysl-scent-power.mp4"
+            src="/asset/video baru.mp4"
             type="video/mp4"
           />
         </video>
