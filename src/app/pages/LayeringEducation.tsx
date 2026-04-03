@@ -45,7 +45,7 @@ export default function LayeringEducation() {
         </h2>
 
         {/* Gambar Stack vs Split */}
-        <div className=" mb-10 bg-[#111]">
+        <div className="mb-10 bg-[#111]">
           <img 
             src="/asset/layer.png" 
             alt="Stack vs Split Layering" 
