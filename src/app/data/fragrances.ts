@@ -79,56 +79,56 @@ export const HERO_PERFUMES: Perfume[] = [
 // Added leading slash "/" to all paths to make them bulletproof
 export const LAYERING_NOTES: FragranceNote[] = [
   {
-    id: "florent",
-    name: "FLORENT",
+    id: "blouse",
+    name: "BLOUSE",
     description: "Luminous floral bouquet with delicate petals and soft elegance",
-    imageUrl: "/asset/florent.jpg",
-    bottleImageUrl: "/asset/florent bottle.png", // <-- ADDED
+    imageUrl: "/asset/BLOUSE.jpg",
+    bottleImageUrl: "/asset/BLOUSE.jpg", // <-- ADDED
     color: "#FF9A3C",
     audioUrl: "/asset/florent.mp3" 
   },
   {
-    id: "neroli",
-    name: "NEROLI",
+    id: "saharienne",
+    name: "SAHARIENNE",
     description: "Vibrant green fruit accord with fresh citrus and lush botanicals",
-    imageUrl: "/asset/neroli.jpg",
-    bottleImageUrl: "/asset/neroli bottle.png", // <-- ADDED
+    imageUrl: "/asset/SAHARIENNE.jpg",
+    bottleImageUrl: "/asset/SAHARIENNE.jpg", // <-- ADDED
     color: "#8BC34A",
     audioUrl: "/asset/neroli.mp3" 
   },
   {
-    id: "mineral-wave",
-    name: "MINÉRALEWAVE",
+    id: "trench",
+    name: "TRENCH",
     description: "Cool aquatic freshness with oceanic minerals and transparent clarity",
-    imageUrl: "/asset/minerale.jpg",
-    bottleImageUrl: "/asset/minerale bottle.png", // <-- ADDED
+    imageUrl: "/asset/TRENCH.jpg",
+    bottleImageUrl: "/asset/TRENCH.jpg", // <-- ADDED
     color: "#00B4D8",
     audioUrl: "/asset/mineral-wave.mp3" 
   },
   {
-    id: "vector",
-    name: "VECTOR",
+    id: "babycat",
+    name: "BABYCAT",
     description: "Bold spicy accord with warming aromatics and vibrant intensity",
-    imageUrl: "/asset/vector.jpg",
-    bottleImageUrl: "/asset/vector bottle.png", // <-- ADDED
+    imageUrl: "/asset/BABYCAT.jpg",
+    bottleImageUrl: "/asset/BABYCAT.jpg", // <-- ADDED
     color: "#8B4513",
     audioUrl: "/asset/vector.mp3" 
   },
   {
-    id: "aether",
-    name: "AETHER",
+    id: "lavalierre",
+    name: "LAVARIELLE",
     description: "Classic fougère accord with herbal lavender and green sophistication",
-    imageUrl: "/asset/aether.jpg",
-    bottleImageUrl: "/asset/aether bottle.png", // <-- ADDED
+    imageUrl: "/asset/LAVARIELLE.jpg",
+    bottleImageUrl: "/asset/LAVARIELLE.jpg", // <-- ADDED
     color: "#9D4EDD",
     audioUrl: "/asset/aether.mp3"
   },
   {
-    id: "blanc",
-    name: "BLANC",
+    id: "capeline",
+    name: "CAPÉLINE",
     description: "Pure white tea accord with serene leaves and delicate clarity",
-    imageUrl: "/asset/blanc.jpg",
-    bottleImageUrl: "/asset/blanc bottle.png", // <-- ADDED
+    imageUrl: "/asset/CAPELINE.jpg",
+    bottleImageUrl: "/asset/CAPELINE.jpg", // <-- ADDED
     color: "#F8F4E3",
     audioUrl: "/asset/blanc.mp3" 
   }

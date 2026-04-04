@@ -83,7 +83,7 @@ export default function AIRecommendation() {
         transition={{ delay: 0.5, duration: 0.8 }}
         className="absolute top-12 right-12 w-16 z-30"
       >
-        <img src="/asset/ysl-logo.png" alt="YSL" className="w-full h-auto object-contain" />
+        <img src="/asset/ysl logo.png" alt="YSL" className="w-full h-auto object-contain" />
       </motion.div>
 
       {/* Back Button */}

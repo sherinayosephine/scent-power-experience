@@ -93,11 +93,11 @@ export default function CombinedExperience() {
             </div>
             
             {/* GAMBAR DIPERBESAR: Menggunakan h-auto dan object-contain agar proporsi aslinya tidak terpotong */}
-            <div className="w-full mb-10">
+            <div className="w-full mb-2 md:mb-4">
               <img 
                 src="/asset/crafting.png" 
                 alt="Crafting Your Power" 
-                className="w-full h-auto object-contain opacity-90"
+                className="w-full h-auto max-h-[45vh] object-contain opacity-90 mx-auto"
               />
             </div>
 

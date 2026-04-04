@@ -12,7 +12,7 @@ export default function LayeringEducation() {
   const selectedNote = currentNote.name;
 
   // Logika edukasi: Kalau Bold (seperti Vector/Lumen), sarankan Split. Selain itu Stack.
-  const isBoldNote = selectedNote === "VECTOR" || selectedNote === "LUMEN";
+  const isBoldNote = selectedNote === "BABYCAT" || selectedNote === "BLOUSE";
   const recommendedTechnique = isBoldNote ? "SPLIT" : "STACK";
 
   return (

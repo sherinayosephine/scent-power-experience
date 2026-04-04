@@ -25,7 +25,7 @@ export default function ProductSelection() {
       id: "dual-spray",
       name: "DUAL SPRAY",
       description: "Travel-size double spray or elegant bag charm.",
-      image: "/asset/dual color.png",
+      image: "/asset/Travel Kit Spray.png",
     },
     {
       id: "discovery-kit",
