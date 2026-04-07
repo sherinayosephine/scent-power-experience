@@ -6,7 +6,9 @@ export interface FragranceNote {
   imageUrl: string;
   bottleImageUrl: string; // <-- NEW: The picture of the bottle
   color: string;
-  audioUrl: string; 
+  audioUrl: string;
+  bgVideoUrl?: string; 
+  imaginaryScene?: string;
 }
 
 export interface Perfume {
@@ -85,7 +87,9 @@ export const LAYERING_NOTES: FragranceNote[] = [
     imageUrl: "/asset/BLOUSE.jpg",
     bottleImageUrl: "/asset/BLOUSE.jpg", // <-- ADDED
     color: "#FF9A3C",
-    audioUrl: "/asset/florent.mp3" 
+    audioUrl: "/asset/florent.mp3",
+    bgVideoUrl: "/asset/BLOUSE.mp4",
+    imaginaryScene: "Imagine the sensation of cold, sheer silk slipping over your shoulders. You are in a grand Parisian apartment; the windows are wide open to a spring garden, and the soft, velvety touch of rose petals floats through the air." 
   },
   {
     id: "saharienne",
@@ -94,7 +98,9 @@ export const LAYERING_NOTES: FragranceNote[] = [
     imageUrl: "/asset/SAHARIENNE.jpg",
     bottleImageUrl: "/asset/SAHARIENNE.jpg", // <-- ADDED
     color: "#8BC34A",
-    audioUrl: "/asset/neroli.mp3" 
+    audioUrl: "/asset/neroli.mp3",
+    bgVideoUrl: "/asset/SAHARIENNE.mp4",
+    imaginaryScene: "Imagine stepping out of the cool shadows of a stone villa into the blazing midday sun. A crisp, white linen shirt flutters in the warm breeze as the sharp, radiant energy of citrus and neroli awakens your skin." 
   },
   {
     id: "trench",
@@ -103,7 +109,9 @@ export const LAYERING_NOTES: FragranceNote[] = [
     imageUrl: "/asset/TRENCH.jpg",
     bottleImageUrl: "/asset/TRENCH.jpg", // <-- ADDED
     color: "#00B4D8",
-    audioUrl: "/asset/mineral-wave.mp3" 
+    audioUrl: "/asset/mineral-wave.mp3",
+    bgVideoUrl: "/asset/TRENCH.mp4",
+    imaginaryScene: "Imagine walking through Paris just as a sudden, cool rain begins to fall. You pull a high-collar trench coat against the wind. The air feels incredibly pure, transparent, and clean—as if the rain has washed the entire city." 
   },
   {
     id: "babycat",
@@ -112,7 +120,9 @@ export const LAYERING_NOTES: FragranceNote[] = [
     imageUrl: "/asset/BABYCAT.jpg",
     bottleImageUrl: "/asset/BABYCAT.jpg", // <-- ADDED
     color: "#8B4513",
-    audioUrl: "/asset/vector.mp3" 
+    audioUrl: "/asset/vector.mp3",
+    bgVideoUrl: "/asset/BABYCAT.mp4",
+    imaginaryScene: "Imagine it is 2 AM in a secret underground jazz club. You are wearing a worn-in leather jacket, leaning against a velvet booth. The air is thick with the intoxicating, smoky aroma of dark bourbon vanilla and mystery." 
   },
   {
     id: "lavalierre",
@@ -121,7 +131,9 @@ export const LAYERING_NOTES: FragranceNote[] = [
     imageUrl: "/asset/LAVARIELLE.jpg",
     bottleImageUrl: "/asset/LAVARIELLE.jpg", // <-- ADDED
     color: "#9D4EDD",
-    audioUrl: "/asset/aether.mp3"
+    audioUrl: "/asset/aether.mp3",
+    bgVideoUrl: "/asset/LAVARIELLE.mp4",
+    imaginaryScene: "Imagine standing inside a lush, overgrown greenhouse at twilight. The air is humid and vibrating with life. You take a bite of a dark, perfectly ripe fig—a sudden clash of sharp greenery and sweet, juicy rebellion."
   },
   {
     id: "capeline",
@@ -130,7 +142,9 @@ export const LAYERING_NOTES: FragranceNote[] = [
     imageUrl: "/asset/CAPELINE.jpg",
     bottleImageUrl: "/asset/CAPELINE.jpg", // <-- ADDED
     color: "#F8F4E3",
-    audioUrl: "/asset/blanc.mp3" 
+    audioUrl: "/asset/blanc.mp3",
+    bgVideoUrl: "/asset/CAPELINE.mp4",
+    imaginaryScene: "Imagine standing on a cliffside terrace overlooking a calm, turquoise sea. The air is filled with the majestic, creamy scent of white lilies and a hint of warm vanilla. Everything feels pure, elegant, and perfectly still."
   }
 ];
 
