@@ -99,7 +99,7 @@ export const LAYERING_NOTES: FragranceNote[] = [
     bottleImageUrl: "/asset/SAHARIENNE.jpg", // <-- ADDED
     color: "#8BC34A",
     audioUrl: "/asset/neroli.mp3",
-    bgVideoUrl: "/asset/SAHARIENNE.mp4",
+    bgVideoUrl: "/asset/SAHARRIENE.mp4",
     imaginaryScene: "Imagine stepping out of the cool shadows of a stone villa into the blazing midday sun. A crisp, white linen shirt flutters in the warm breeze as the sharp, radiant energy of citrus and neroli awakens your skin." 
   },
   {
@@ -126,13 +126,13 @@ export const LAYERING_NOTES: FragranceNote[] = [
   },
   {
     id: "lavalierre",
-    name: "LAVARIELLE",
+    name: "LAVALLIERE",
     description: "Classic fougère accord with herbal lavender and green sophistication",
     imageUrl: "/asset/LAVARIELLE.jpg",
     bottleImageUrl: "/asset/LAVARIELLE.jpg", // <-- ADDED
     color: "#9D4EDD",
     audioUrl: "/asset/aether.mp3",
-    bgVideoUrl: "/asset/LAVARIELLE.mp4",
+    bgVideoUrl: "/asset/LAVALLIERE.mp4",
     imaginaryScene: "Imagine standing inside a lush, overgrown greenhouse at twilight. The air is humid and vibrating with life. You take a bite of a dark, perfectly ripe fig—a sudden clash of sharp greenery and sweet, juicy rebellion."
   },
   {
