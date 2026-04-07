@@ -28,10 +28,10 @@ export default function ProductSelection() {
       image: "/asset/Travel Kit Spray.png",
     },
     {
-      id: "discovery-kit",
-      name: "DISCOVERY KIT",
+      id: "miniature-set",
+      name: "LVDP Miniature Set",
       description: "Collection of all 6 Layering Fragrances to explore.",
-      image: "/asset/discovery kit.png",
+      image: "/asset/miniature.jpg",
     },
   ];
 
